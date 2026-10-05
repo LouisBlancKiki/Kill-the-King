@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50633b6f7bbf70e48863810789d34e94, type: 3}
+  m_Name: carte_Data_Marchand
+  m_EditorClassIdentifier: 
+  type: 1
+  nom: 8
+  sprite_Carte: {fileID: 21300000, guid: 8dacecb4bd9272c4fb98a3a367b29da9, type: 3}
+  sprite_EntetePanneauAction: {fileID: 0}
+  sprite_BoutonRecrute: {fileID: 0}
+  prixEnPiece: 3
+  coutEnNourriture: 0
+  coutEnBois: 0
+  coutEnPierre: 0
+  coutEnCharbon: 0
+  coutEnMetal: 0
+  carteGameObject: {fileID: 0}
