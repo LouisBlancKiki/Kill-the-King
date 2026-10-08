@@ -1,29 +1,47 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class AccueilManager : MonoBehaviour
 {
-    public Animator animator_Fond;
-    public Animator animator_Bout_Jouer;
+    [Header("GAME OBJECTS")]
     public GameObject pageAcceuil;
-
-    [Space(10)]
-    [Header("FANIONS")]
-    public int numCouleurSelectionee_P1;
-    public int numCouleurSelectionee_P2;
-    [Space(10)]
     public GameObject[] liste_Fanion_P1;
     public GameObject[] liste_Fanion_P2;
+    public Sprite[] listeBlasonsRois;
+
     [Space(10)]
+
+    [Header("ANIMATORS")]
+    public Animator animator_Fond;
+    public Animator animator_Bout_Jouer;
+    
+    [Space(10)]
+
+    [Header("POSITIONS DES FANIONS")]
     public float positionFanion_DefautY;
     public float positionFanion_SelectioneY;
     public float positionFanion_IndisponibleY;
 
     [Space(10)]
+
+    [Header("FANIONS")]
+    public int numCouleurSelectionee_P1;
+    public int numCouleurSelectionee_P2;
+
+    [Space(10)]
+
+    [Header("BLASONS")]
     public GameObject blason_Roi_P1;
     public GameObject blason_Roi_P2;
-    public Sprite[] listeBlasonsRois;
+    
+    [Space(10)]
+
+    [Header("NOMS")]
+    public TMP_InputField champNom_P1;
+    public TMP_InputField champNom_P2;
+
 
     void Start()
     {

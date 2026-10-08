@@ -10,7 +10,7 @@ public class Bouton : MonoBehaviour
 
     private void OnMouseDown()
     {
-        Debug.Log("<b><color=#00FFFF>[ CLIC ]</color></b> " + gameObject.name);
+        Debug.Log("<b><color=#FF80FF>[ CLIC ] : " + gameObject.name + "</color></b>");
        
         transform.localScale = taille_boutonPresse;
     }

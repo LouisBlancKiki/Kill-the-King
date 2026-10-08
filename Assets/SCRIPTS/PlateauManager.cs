@@ -36,8 +36,11 @@ public class PlateauManager : MonoBehaviour
         return data;
     }
 
+    // INITIALISATION DU PLATEAU DE JEU
+
     public void InitialiserPlateauDeJeu()
     {
+        Debug.Log("<b><color=#ACFF80> -> Initialisation du plateau de jeu</color></b>");
         grillePlateau = CreerGrilleDeCase(nbColonnes, nbLignes);
         PlacerTuileDepart();
     }
@@ -77,6 +80,7 @@ public class PlateauManager : MonoBehaviour
         PlacerTuilesGisementDuDebut();
         PlacerTuilesPrairieDuDebut();
     }
+
     void PlacerTuilesChateauDuDebut(Joueur proprietaire)
     {
         int colonne;

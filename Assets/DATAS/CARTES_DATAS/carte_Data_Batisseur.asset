@@ -23,4 +23,4 @@ MonoBehaviour:
   coutEnPierre: 0
   coutEnCharbon: 0
   coutEnMetal: 0
-  carteGameObject: {fileID: 0}
+  carteGameObject: {fileID: 4546394304669347893, guid: c0e4b2e6d0923e041bdb7210466d5295, type: 3}

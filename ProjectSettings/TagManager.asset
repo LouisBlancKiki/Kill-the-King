@@ -44,11 +44,20 @@ TagManager:
   - name: Fond
     uniqueID: 556908793
     locked: 0
+  - name: Zone
+    uniqueID: 2247914465
+    locked: 0
   - name: Plateau
     uniqueID: 1897949661
     locked: 0
   - name: Interface
     uniqueID: 1227463555
+    locked: 0
+  - name: Carte
+    uniqueID: 1247989851
+    locked: 0
+  - name: Panneaux
+    uniqueID: 1584979547
     locked: 0
   - name: Accueil
     uniqueID: 2828208247

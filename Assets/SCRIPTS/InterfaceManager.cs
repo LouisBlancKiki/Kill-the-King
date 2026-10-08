@@ -11,11 +11,27 @@ public class InterfaceManager : MonoBehaviour
 
     public GameObject environnement_Joueur;
 
+    public GameObject imageProfil_P1;
+    public TMP_Text txt_nomProfil_P1;
+
+    public GameObject imageProfil_P2;
+    public TMP_Text txt_nomProfil_P2;
+
 
     void Start()
     {
         nbTourDeJeu = 0;
         Afficher_nbTourDeJeu();
+        
+    }
+
+    public void Afficher_ProfilDesJoueurs()
+    {
+        imageProfil_P1.GetComponent<SpriteRenderer>().sprite = GM.imageJoueur_P1;
+        txt_nomProfil_P1.text = GM.nomJoueur_P1;
+
+        imageProfil_P2.GetComponent<SpriteRenderer>().sprite = GM.imageJoueur_P2;
+        txt_nomProfil_P2.text = GM.nomJoueur_P2;
     }
 
     public void Afficher_nbTourDeJeu()

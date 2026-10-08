@@ -111,11 +111,13 @@ public class Case : MonoBehaviour
         txtVie.text = vie.ToString();
         txtNiveau.text = niveau.ToString();
 
-        Debug.Log("<b><color=#666666> /// Mise à jour du visuel de la tuile ("
+        /*
+         Debug.Log("<b><color=#ACFF80> /// Mise à jour du visuel de la tuile ("
             + coordX + "/" + coordY + ") :"
             + PM.GetTuileData(type).type + " ( " + proprietaire
             + " ) - ( NIV: " + niveau
             + " ) - ( PV: " + vie
             + " )</color></b>");
+        */
     }
 }

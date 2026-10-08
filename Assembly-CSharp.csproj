@@ -66,13 +66,18 @@
     <Compile Include="Assets\SCRIPTS\AccueilManager.cs" />
     <Compile Include="Assets\SCRIPTS\Elements.cs" />
     <Compile Include="Assets\SCRIPTS\PlateauManager.cs" />
+    <Compile Include="Assets\SCRIPTS\Carte.cs" />
+    <Compile Include="Assets\SCRIPTS\Carte_Presentation.cs" />
     <Compile Include="Assets\SCRIPTS\Tuiles_DataBase.cs" />
     <Compile Include="Assets\SCRIPTS\InterfaceManager.cs" />
-    <Compile Include="Assets\SCRIPTS\Cartes_Data.cs" />
+    <Compile Include="Assets\SCRIPTS\TableauManager.cs" />
+    <Compile Include="Assets\SCRIPTS\MainManager.cs" />
     <Compile Include="Assets\SCRIPTS\GameManager.cs" />
+    <Compile Include="Assets\SCRIPTS\DeckManager.cs" />
     <Compile Include="Assets\SCRIPTS\Bouton.cs" />
     <Compile Include="Assets\SCRIPTS\Cartes_DataBase.cs" />
     <Compile Include="Assets\SCRIPTS\Tuile_Data.cs" />
+    <Compile Include="Assets\SCRIPTS\Carte_Data.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
