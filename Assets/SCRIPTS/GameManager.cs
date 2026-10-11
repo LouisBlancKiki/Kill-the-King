@@ -116,13 +116,63 @@ public class GameManager : MonoBehaviour
         //prochainJoueur = Random.Range(1, 3);
     }
 
-    //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+    // ============================================================
+    // JOUEUR ACTF
+    // ============================================================
+
+    public void RedeinirLeJoueurActif()
+    {
+        if (prochainJoueur == 1)
+        {
+            joueurActif = Joueur.P1;
+            prochainJoueur = 2;
+        }
+
+        else if (prochainJoueur == 2)
+        {
+            joueurActif = Joueur.P2;
+            prochainJoueur = 1;
+        }
+    }
 
     private void MiseAJourJoueurActif()
     {
+        if (joueurActif == Joueur.P1)
+        {
+            DM.zone_Deck_Actif = DM.zone_Deck_P1;
+            DM.deck_Actif = DM.deck_P1;
+            DM.liste_Deck_Actif = DM.liste_Deck_P1;
+            
+            DM.zone_Defaussse_Actif = DM.zone_Defaussse_P1;
+            DM.defausse_Actif = DM.defausse_P1;
+            DM.liste_Defausse_Actif = DM.liste_Defausse_P1;
+
+            DM.zone_Main_Actif = DM.zone_Main_P1;
+            DM.main_Actif = DM.main_P1;
+            DM.liste_Main_Actif = DM.liste_Main_P1;
+        }
+        else
+        {
+            DM.zone_Deck_Actif = DM.zone_Deck_P2;
+            DM.deck_Actif = DM.deck_P2;
+            DM.liste_Deck_Actif = DM.liste_Deck_P2;
+
+            DM.zone_Defaussse_Actif = DM.zone_Defaussse_P2;
+            DM.defausse_Actif = DM.defausse_P2;
+            DM.liste_Defausse_Actif = DM.liste_Defausse_P2;
+
+            DM.zone_Main_Actif = DM.zone_Main_P2;
+            DM.main_Actif = DM.main_P2;
+            DM.liste_Main_Actif = DM.liste_Main_P2;
+        }
+
         IM.AfficherEnvironnementJoueur(joueurActif);
         Debug.Log($"<b><color=#000000>/// JoueurActif = { joueurActif } </color></b>");
     }
+
+    // ============================================================
+    // DEBUT DE PARTIE
+    // ============================================================
 
     private void DefinirIdentiteDesJoueurs()
     {
@@ -166,6 +216,10 @@ public class GameManager : MonoBehaviour
         Invoke("ChangementDeJoueur", 1.5f);
     }
 
+    // ============================================================
+    // CHANGEMENT DE JOUEUR
+    // ============================================================
+
     public void ChangementDeJoueur()
     {
         Debug.Log("<b><color=#000000>=== CHANGEMENT DE JOUEUR ===</color></b>");
@@ -173,40 +227,10 @@ public class GameManager : MonoBehaviour
         TM.AfficherTableau_DebutDeTour();
     }
 
-    public void RedeinirLeJoueurActif()
-    {
-        if (prochainJoueur == 1)
-        {
-            joueurActif = Joueur.P1;
-            prochainJoueur = 2;
-        }
+    // ============================================================
+    // ACCESSIBILITE DES BOUTONS
+    // ============================================================
 
-        else if (prochainJoueur == 2)
-        {
-            joueurActif = Joueur.P2;
-            prochainJoueur = 1;
-        }
-    }
-
-    public void ConfirmationJoueurPret()
-    {
-        TM.MasquerTableau_DebutDeTour();
-        Invoke("DemarrerTourDuProchainJoueur", 0.2f);
-    }
-
-    public void DemarrerTourDuProchainJoueur()
-    {
-        IM.nbTourDeJeu++;
-
-        IM.Afficher_nbTourDeJeu();
-        DefinirAccesDesBoutonsFinDeTour();
-        LancerDebutDeTour();
-    }
-
-    public void LancerDebutDeTour()
-    {
-        MM.piocheDeDebutDeTour();
-    }
     public void DefinirAccesDesBoutonsFinDeTour()
     {
         if (joueurActif == Joueur.P1)
@@ -247,6 +271,35 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // ============================================================
+    // DEBUT DE TOUR
+    // ============================================================
+
+    public void ConfirmationJoueurPret()
+    {
+        TM.MasquerTableau_DebutDeTour();
+        Invoke("DemarrerTourDuProchainJoueur", 0.2f);
+    }
+
+    public void DemarrerTourDuProchainJoueur()
+    {
+        IM.nbTourDeJeu++;
+
+        IM.Afficher_nbTourDeJeu();
+        DefinirAccesDesBoutonsFinDeTour();
+        LancerDebutDeTour();
+    }
+
+    public void LancerDebutDeTour()
+    {
+        MM.piocheDeDebutDeTour();
+    }
+
+    
+    // ============================================================
+    // FIN DE TOUR
+    // ============================================================
+
     public void DemanderLaFinDeTour()
     {
         AttendreFinDeMouvementEtFinaliserLeTour();
@@ -261,7 +314,7 @@ public class GameManager : MonoBehaviour
     {
         //yield return GD2P.StartCoroutine(GD2P.VerifieSiUneCarteBouge_Coroutine(GD2P.jeu_Main));
         yield return null;
-        Invoke("FinaliserLeTour", 0.5f);
+        Invoke("FinaliserLeTour", 0.2f);
     }
 
     public void FinaliserLeTour()
@@ -272,7 +325,6 @@ public class GameManager : MonoBehaviour
 
     private IEnumerator FinaliserLeTour_Coroutine()
     {
-        MM.DefausserMainDuJoueur();
         //PAM.FermerLePanneauAction();
         //PM.RendreToutesLesCases_NonSelectionables();
 
@@ -282,8 +334,10 @@ public class GameManager : MonoBehaviour
 
         //boutonFinDeTour_P1.GetComponent<Bouton_FinDeTour>().AfficherNbDeSupportLumaction(0);
         // boutonFinDeTour_P2.GetComponent<Bouton_FinDeTour>().AfficherNbDeSupportLumaction(0);
+        yield return StartCoroutine(MM.DefausserMainDuJoueur_Coroutine());
         joueurActif = Joueur.Game;
         DefinirAccesDesBoutonsFinDeTour();
+        
         yield return new WaitForSeconds(0.2f);
 
         ChangementDeJoueur();

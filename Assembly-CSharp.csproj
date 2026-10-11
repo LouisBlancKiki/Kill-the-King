@@ -62,9 +62,11 @@
   <ItemGroup>
     <Compile Include="Assets\SCRIPTS\Case.cs" />
     <Compile Include="Assets\SCRIPTS\Bouton_Fanion.cs" />
+    <Compile Include="Assets\SCRIPTS\Carte_Interaction.cs" />
     <Compile Include="Assets\SCRIPTS\BoutonManager.cs" />
     <Compile Include="Assets\SCRIPTS\AccueilManager.cs" />
     <Compile Include="Assets\SCRIPTS\Elements.cs" />
+    <Compile Include="Assets\SCRIPTS\CarteInteraction.cs" />
     <Compile Include="Assets\SCRIPTS\PlateauManager.cs" />
     <Compile Include="Assets\SCRIPTS\Carte.cs" />
     <Compile Include="Assets\SCRIPTS\Carte_Presentation.cs" />

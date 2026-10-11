@@ -8,7 +8,14 @@ using static UnityEngine.Rendering.DebugUI;
 
 public class TableauManager : MonoBehaviour
 {
+    // MANAGERS
+    [Header("<b><color=#FFDC99>MANAGERS</color></b>")]
     public GameManager GM;
+
+    [Space(10)]
+
+    // TABLEAUX DEBUT DE TOUR
+    [Header("<b><color=#FFDC99>TABLEAUX DEBUT DE TOUR</color></b>")]
     public GameObject tableau_DebutDeTour;
     TMP_Text txt_Nom_tableau_DebutDeTour;
     Vector3  pos_Tableau_DebutDeTour;
@@ -19,6 +26,10 @@ public class TableauManager : MonoBehaviour
         txt_Nom_tableau_DebutDeTour = tableau_DebutDeTour.transform.Find("txt_NomDuJoueur").GetComponent<TMP_Text>();
         pos_Tableau_DebutDeTour = tableau_DebutDeTour.transform.position;
     }
+
+    // ============================================================
+    // TABLEAU DEBUT DE TOUR
+    // ============================================================
 
     public void AfficherTableau_DebutDeTour()
     {

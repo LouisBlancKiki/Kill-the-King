@@ -25,19 +25,10 @@ public class PlateauManager : MonoBehaviour
     public GameObject casePlateau_Prefab;
     public Tuiles_DataBase tuileDatabase;
 
-
-    public Tuile_Data GetTuileData(TypeTuile type)
-    {
-        Tuile_Data data = tuileDatabase.tuiles_Liste.Find(t => t.type == type);
-
-        if (data == null)
-            Debug.LogError("Aucune TuileData pour : " + type);
-
-        return data;
-    }
-
+    
+    // ============================================================
     // INITIALISATION DU PLATEAU DE JEU
-
+    // ============================================================
     public void InitialiserPlateauDeJeu()
     {
         Debug.Log("<b><color=#ACFF80> -> Initialisation du plateau de jeu</color></b>");
@@ -180,5 +171,17 @@ public class PlateauManager : MonoBehaviour
             }
         }
     }
-    
+
+    // ============================================================
+    // ACCES AU DONNEES DES TUILES
+    // ============================================================
+    public Tuile_Data GetTuileData(TypeTuile type)
+    {
+        Tuile_Data data = tuileDatabase.tuiles_Liste.Find(t => t.type == type);
+
+        if (data == null)
+            Debug.LogError("Aucune TuileData pour : " + type);
+
+        return data;
+    }
 }

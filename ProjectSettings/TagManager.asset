@@ -53,8 +53,14 @@ TagManager:
   - name: Interface
     uniqueID: 1227463555
     locked: 0
-  - name: Carte
+  - name: Deck
     uniqueID: 1247989851
+    locked: 0
+  - name: Defausse
+    uniqueID: 452413039
+    locked: 0
+  - name: Main
+    uniqueID: 2675726601
     locked: 0
   - name: Panneaux
     uniqueID: 1584979547

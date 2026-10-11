@@ -49,6 +49,9 @@ public class AccueilManager : MonoBehaviour
         DefinirFanionJoueur(Elements.Joueur.P2, numCouleurSelectionee_P2);
     }
 
+    // ============================================================
+    // VOLETS
+    // ============================================================
     public void OuvertureDesVoletsAcceuil()
     {
         animator_Fond.SetBool("ouvre", true);
@@ -61,6 +64,10 @@ public class AccueilManager : MonoBehaviour
     {
         pageAcceuil.SetActive(false);
     }
+
+    // ============================================================
+    // FANIONS
+    // ============================================================
 
     public void DefinirFanionJoueur(Elements.Joueur joueurCible, int num)
     {

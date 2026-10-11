@@ -8,19 +8,19 @@ public class DeckManager : MonoBehaviour
 {
     [Header("<b><color=#FFDC99>MANAGERS</color></b>")]
     public GameManager GM;
+    public MainManager MM;
 
     [Space(10)]
 
     [Header("<b><color=#FFDC99>CARTES</color></b>")]
     public Cartes_DataBase cartes_DataBase;
     public Sprite carte_Verso;
-    public Vector3 decalage_EpaisseurDeck;
+    
 
     [Space(10)]
 
     [Header("<b><color=#FFDC99>TOURBILLON</color></b>")]
     public Transform centre_Tourbillon;
-
     public float tempsEntreEjectionCartes;
     public float tempsDeplacementVersCercle;
     [Range(0f, 10f)]
@@ -44,33 +44,78 @@ public class DeckManager : MonoBehaviour
     // P1
     [Header("<b><color=#FFDC99>P1</color></b>")]
     public Transform zone_Deck_P1;
-    public List<Carte> deck_P1 = new List<Carte>();
+    public GameObject deck_P1;
+    public List<Carte> liste_Deck_P1 = new List<Carte>();
+    [Space(10)]
     public Transform zone_Defaussse_P1;
-    public List<Carte> defausse_P1 = new List<Carte>();
+    public GameObject defausse_P1;
+    public List<Carte> liste_Defausse_P1 = new List<Carte>();
+    [Space(10)]
+    public Transform zone_Main_P1;
+    public GameObject main_P1;
+    public List<Carte> liste_Main_P1 = new List<Carte>();
+    [Space(10)]
+    public Vector3 decalage_EpaisseurDeck_P1;
 
     [Space(10)]
 
     // P2
     [Header("<b><color=#FFDC99>P2</color></b>")]
     public Transform zone_Deck_P2;
-    public List<Carte> deck_P2 = new List<Carte>();
+    public GameObject deck_P2;
+    public List<Carte> liste_Deck_P2 = new List<Carte>();
+    [Space(10)]
     public Transform zone_Defaussse_P2;
-    public List<Carte> defausse_P2 = new List<Carte>();
+    public GameObject defausse_P2;
+    public List<Carte> liste_Defausse_P2 = new List<Carte>();
+    [Space(10)]
+    public Transform zone_Main_P2;
+    public GameObject main_P2;
+    public List<Carte> liste_Main_P2 = new List<Carte>();
+    [Space(10)]
+    public Vector3 decalage_EpaisseurDeck_P2;
 
+    [Space(10)]
+
+    // NEUTRE
+    [Header("<b><color=#FFDC99>ACTIF</color></b>")]
+    public Transform zone_Deck_Actif;
+    public GameObject deck_Actif;
+    public List<Carte> liste_Deck_Actif;
+    [Space(10)]
+    public Transform zone_Defaussse_Actif;
+    public GameObject defausse_Actif;
+    public List<Carte> liste_Defausse_Actif;
+    [Space(10)]
+    public Transform zone_Main_Actif;
+    public GameObject main_Actif;
+    public List<Carte> liste_Main_Actif;
+    [Space(10)]
+    public Vector3 decalage_EpaisseurDeck_Actif;
 
     void Start()
     {
         
     }
-
+    // ============================================================
+    // INITIALISATION
+    // ============================================================
     public void InitialiserDeckDesJoueurs()
     {
-        CreerDeckDeDepart(Joueur.P1,deck_P1);
-        CreerDeckDeDepart(Joueur.P2, deck_P2);
+        CreerDeckDeDepart(Joueur.P1,liste_Deck_P1);
+        CreerDeckDeDepart(Joueur.P2, liste_Deck_P2);
+        MelangerDeck(Joueur.P1);
+        MelangerDeck(Joueur.P2);
     }
+
+    // ============================================================
+    // CREATION DU DECK
+    // ============================================================
 
     public void CreerDeckDeDepart( Joueur joueurCible, List<Carte> deckCible)
     {
+        Debug.Log($"<b><color=#80D8FF> -> Création  du deck de départ de {joueurCible} :  {deckCible.Count} cartes au total</color></b>");
+
         AjouterCartesAuDeck(joueurCible, deckCible, NomCarte.Paysan, GM.nbCarte_AuDepart_Paysan);
         AjouterCartesAuDeck(joueurCible, deckCible, NomCarte.Bucheron, GM.nbCarte_AuDepart_Bucheron);
         AjouterCartesAuDeck(joueurCible, deckCible, NomCarte.Mineur, GM.nbCarte_AuDepart_Mineur);
@@ -85,10 +130,6 @@ public class DeckManager : MonoBehaviour
         AjouterCartesAuDeck(joueurCible, deckCible, NomCarte.Mendiant, GM.nbCarte_AuDepart_Mendiant);
         AjouterCartesAuDeck(joueurCible, deckCible, NomCarte.Artilleur, GM.nbCarte_AuDepart_Artilleur);
         AjouterCartesAuDeck(joueurCible, deckCible, NomCarte.Bourreau, GM.nbCarte_AuDepart_Bourreau);
-
-        MelangerDeck(joueurCible);
-
-        Debug.Log($"<b><color=#80D8FF> -> Création et mélange du deck de départ de {joueurCible} :  {deckCible.Count} cartes au total</color></b>");
     }
 
     public void AjouterCartesAuDeck(Joueur joueurCible, List<Carte> deckCible, NomCarte nomCarte, int quantite)
@@ -105,100 +146,87 @@ public class DeckManager : MonoBehaviour
         {
             Carte carte = new Carte(carteData);
             deckCible.Add(carte);
-            CreerVisuelDeLaCarte(carte, joueurCible);
+            CreerVisuelDeLaCarte(carte);
         }
     }
 
-    private void CreerVisuelDeLaCarte(Carte carte, Joueur joueurCible)
+    private void CreerVisuelDeLaCarte(Carte carte)
     {
-        GameObject nouvelleCarte = Instantiate(carte.data.carteGameObject);
+        Debug.Log($"<b><color=#80D8FF> -> Visuel créé : {carte.data.nom} </color></b>");
 
-        carte.objetCarte = nouvelleCarte;
+        GameObject nouvelleCarte = Instantiate(carte.data.carteGameObject, zone_Deck_Actif.position, Quaternion.identity, deck_Actif.transform);
 
-        Transform zoneDeck;
+        carte.gameObject = nouvelleCarte;
 
-        if (joueurCible == Joueur.P1)
-        {
-            zoneDeck = zone_Deck_P1;
-        }
-        else
-        {
-            zoneDeck = zone_Deck_P2;
-        }
-
-        nouvelleCarte.transform.position = zoneDeck.position;
-        nouvelleCarte.transform.rotation = Quaternion.identity;
+        CarteInteraction carteInteraction = nouvelleCarte.AddComponent<CarteInteraction>();
+        carteInteraction.carte = carte;
+        carteInteraction.mainManager = MM;
 
         SpriteRenderer sr = nouvelleCarte.GetComponent<SpriteRenderer>();
         sr.sprite = carte_Verso;
-        
-
-        Debug.Log($"<b><color=#80D8FF> -> Visuel créé : {carte.data.nom} </color></b>");
     }
+
+    // ============================================================
+    // MELANGE DU DECK
+    // ============================================================
 
     public void MelangerDeck(Joueur joueurCible)
     {
-        Transform zoneDeck;
-        List<Carte> deck;
+        Debug.Log($"<b><color=#80D8FF> -> Mélange du deck de {joueurCible} </color></b>");
+
+        List<Carte> liste_Deck_Cible;
+        Vector3 decalage_EpaisseurDeck_Cible;
+        Transform zone_Deck_Cible;
 
         if (joueurCible == Joueur.P1)
         {
-            zoneDeck = zone_Deck_P1;
-            deck = deck_P1;
+            liste_Deck_Cible = liste_Deck_P1;
+            decalage_EpaisseurDeck_Cible = decalage_EpaisseurDeck_P1;
+            zone_Deck_Cible = zone_Deck_P1;
         }
         else
         {
-            zoneDeck = zone_Deck_P2;
-            deck = deck_P2;
+            liste_Deck_Cible = liste_Deck_P2;
+            decalage_EpaisseurDeck_Cible = decalage_EpaisseurDeck_P2;
+            zone_Deck_Cible = zone_Deck_P2;
         }
 
-        for (int i = 0; i < deck.Count; i++)
+        for (int i = 0; i < liste_Deck_Cible.Count; i++)
         {
-            Carte temp = deck[i];
-            int randomIndex = UnityEngine.Random.Range(i, deck.Count);
-            deck[i] = deck[randomIndex];
-            deck[randomIndex] = temp;
+            Carte temp = liste_Deck_Cible[i];
+            int randomIndex = UnityEngine.Random.Range(i, liste_Deck_Cible.Count);
+            liste_Deck_Cible[i] = liste_Deck_Cible[randomIndex];
+            liste_Deck_Cible[randomIndex] = temp;
 
-            deck[i].objetCarte.transform.position = zoneDeck.position + (decalage_EpaisseurDeck * i);
-            deck[i].objetCarte.GetComponent<SpriteRenderer>().sortingOrder = i * 10;
+            liste_Deck_Cible[i].gameObject.transform.position = zone_Deck_Cible.position + (decalage_EpaisseurDeck_Actif * i);
+            SpriteRenderer sr = liste_Deck_Cible[i].gameObject.GetComponent<SpriteRenderer>();
+            sr.sortingLayerName = "Deck";
+            sr.sortingOrder = i * 10;
         }
     }
 
-    public IEnumerator RecyclageDefausse(Joueur joueurCible)
+    // ============================================================
+    // RECYCLAGE DE DEFAUSSE
+    // ============================================================
+
+    public IEnumerator DemnderRecyclageDefausse_Coroutine()
     {
-        yield return StartCoroutine(RecyclageDefausseCoroutine(joueurCible));
+        yield return StartCoroutine(RecyclageDefausse_Coroutine());
     }
 
-    private IEnumerator RecyclageDefausseCoroutine(Joueur joueurCible)
+    private IEnumerator RecyclageDefausse_Coroutine()
     {
-        List<Carte> defausseActive;
-        List<Carte> deckActif;
-        //Transform zoneDefausse;
-
-        if (joueurCible == Joueur.P1)
-        {
-            defausseActive = defausse_P1;
-            deckActif = deck_P1;
-            //zoneDefausse = zone_Defaussse_P1;
-        }
-        else
-        {
-            defausseActive = defausse_P2;
-            deckActif = deck_P2;
-            //zoneDefausse = zone_Defaussse_P2;
-        }
-
-        int nombreCartes = defausseActive.Count;
+        int nombreCartes = liste_Defausse_Actif.Count;
         nombreCartesTerminees = 0;
 
         for (int i = 0; i < nombreCartes; i++)
         {
-            Carte carte = defausseActive[0];
+            Carte carte = liste_Defausse_Actif[0];
 
-            defausseActive.RemoveAt(0);
-            deckActif.Add(carte);
+            liste_Defausse_Actif.RemoveAt(0);
+            liste_Deck_Actif.Add(carte);
 
-            StartCoroutine(EnvoyerCarteVersCercleMelange(carte, joueurCible));
+            StartCoroutine(EnvoyerCarteVersCercleMelange_Coroutine(carte));
 
             yield return new WaitForSeconds(tempsEntreEjectionCartes);
         }
@@ -208,23 +236,20 @@ public class DeckManager : MonoBehaviour
             yield return null;
         }
 
-        Debug.Log("<b><color=#FF0000>/// Toutes les cartes sont retournées dans le deck !</color></b>");
+        Debug.Log($"<b><color=#80D8FF>/// Toutes les cartes de la defausse de {GM.joueurActif} ont été renvoyées vers le deck !</color></b>");
 
-        MelangerDeck(joueurCible);
+        MelangerDeck(GM.joueurActif);
     }
 
-    private IEnumerator EnvoyerCarteVersCercleMelange(Carte carte, Joueur joueurCible)
-    {
-        if (joueurCible == Joueur.P1)
-        {
-            centre_Tourbillon.position = zone_Deck_P1.position;
-        }
-        if (joueurCible == Joueur.P2)
-        {
-            centre_Tourbillon.position = zone_Deck_P2.position;
-        }
+    // ============================================================
+    // ANIMATION RECYCLAGE
+    // ============================================================
 
-        Transform objet = carte.objetCarte.transform;
+    private IEnumerator EnvoyerCarteVersCercleMelange_Coroutine(Carte carte)
+    {
+        Transform objet = carte.gameObject.transform;
+
+        centre_Tourbillon.position = zone_Deck_Actif.position;
 
         Vector3 centre = centre_Tourbillon.position;
 
@@ -234,7 +259,7 @@ public class DeckManager : MonoBehaviour
 
         Vector3 directionCourbe = Vector3.left;
 
-        if (joueurCible == Joueur.P2)
+        if (GM.joueurActif == Joueur.P2)
         {
             directionCourbe = Vector3.right;
         }
@@ -248,7 +273,7 @@ public class DeckManager : MonoBehaviour
         float angleDepart = objet.eulerAngles.z;
         float angleFinal;
 
-        if (joueurCible == Joueur.P1)
+        if (GM.joueurActif == Joueur.P1)
         {
             angleFinal = angleDepart - 90f;
         }
@@ -282,12 +307,12 @@ public class DeckManager : MonoBehaviour
         SpriteRenderer spriteRenderer = objet.GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = carte_Verso;
 
-        yield return StartCoroutine(FaireTournerCarte(carte, joueurCible, scaleOriginal));
+        yield return StartCoroutine(FaireTournerCarte_Coroutine(carte, scaleOriginal));
     }
 
-    private IEnumerator FaireTournerCarte(Carte carte, Joueur joueurCible, Vector3 scaleOriginal)
+    private IEnumerator FaireTournerCarte_Coroutine(Carte carte, Vector3 scaleOriginal)
     {
-        Transform objet = carte.objetCarte.transform;
+        Transform objet = carte.gameObject.transform;
 
         Vector3 centre = centre_Tourbillon.position;
 
@@ -311,7 +336,7 @@ public class DeckManager : MonoBehaviour
 
             rayonActuel = Mathf.MoveTowards(rayonActuel, 0f, vitesseReductionRayon * Time.deltaTime);
 
-            if (joueurCible == Joueur.P1)
+            if (GM.joueurActif == Joueur.P1)
             {
                 angle -= vitesseActuelle * Time.deltaTime;
             }

@@ -9,56 +9,29 @@ public class MainManager : MonoBehaviour
     public GameManager GM;
     public DeckManager DM;
 
-    [Header("<b><color=#FFDC99>ZONE MAIN</color></b>")]
-    public Transform zone_Main;
-
-    [Header("<b><color=#FFDC99>MAINS</color></b>")]
-    public List<Carte> Main_P1 = new List<Carte>();
-    public List<Carte> Main_P2 = new List<Carte>();
+    [Space(10)]
 
     [Header("<b><color=#FFDC99>TEMPS</color></b>")]
     public float tempsEntreChaquePioche;
     public float tempsEntreChaqueDefausse;
     public float tempsDeplacementDesCartes;
 
+    [Space(10)]
+
     [Header("<b><color=#FFDC99>PRESENTATION DES CARTES</color></b>")]
     public float espacementDesCartes;
     public float hauteurCourbeMain;
     public float angleMaxCourbe;
 
+    [Space(10)]
 
-    // ============================================================
-    // CREATION VISUELLE
-    // ============================================================
-
-    private void CreerVisuelDeLaCarte(Carte carte, Joueur joueurCible)
-    {
-        GameObject nouvelleCarte = Instantiate(carte.data.carteGameObject, zone_Main);
-
-        carte.objetCarte = nouvelleCarte;
-
-        Debug.Log($"<b><color=#80D8FF> -> Carte créée : {carte.data.nom} </color></b>");
-
-
-        int sortingOrderCarte;
-
-        if (joueurCible == Joueur.P1)
-        {
-            nouvelleCarte.transform.position = DM.zone_Deck_P1.position;
-            sortingOrderCarte = Main_P1.Count * -10;
-        }
-        else
-        {
-            nouvelleCarte.transform.position = DM.zone_Deck_P2.position;
-            sortingOrderCarte = Main_P2.Count * -10;
-        }
-
-        nouvelleCarte.GetComponent<SpriteRenderer>().sprite = carte.data.sprite_Carte;
-        nouvelleCarte.GetComponent<SpriteRenderer>().sortingOrder = sortingOrderCarte;
-
-        nouvelleCarte.transform.localRotation = Quaternion.identity;
-    }
-
+    [Header("<b><color=#FFDC99>SELECTION CARTE</color></b>")]
+    public float hauteurSelection;
+    public float facteurTailleSelection;
+    public float tempsAnimationSelection;
+    [Space(10)]
+    private Carte carteSelectionnee;
+    
 
     // ============================================================
     // DEBUT DE TOUR
@@ -66,106 +39,70 @@ public class MainManager : MonoBehaviour
 
     public void piocheDeDebutDeTour()
     {
-        StartCoroutine(PiocherCartesDeDebutDeTour());
+        StartCoroutine(PiocherCartesDeDebutDeTour_Coroutine());
     }
 
-    private IEnumerator PiocherCartesDeDebutDeTour()
+    private IEnumerator PiocherCartesDeDebutDeTour_Coroutine()
     {
         int nombreDeCartes = GM.nbCartePiocheesAuDebutDuTour;
 
         for (int i = 0; i < nombreDeCartes; i++)
         {
-            yield return StartCoroutine(PiocherCarte(GM.joueurActif));
+            yield return StartCoroutine(PiocherCarte_Coroutine());
 
             yield return new WaitForSeconds(tempsEntreChaquePioche);
         }
     }
 
-
     // ============================================================
     // PIOCHE D'UNE CARTE
     // ============================================================
 
-    private IEnumerator PiocherCarte(Joueur joueurCible)
+    private IEnumerator PiocherCarte_Coroutine()
     {
         Carte cartePiochee;
         Vector3 positionDepart;
-
-        if (joueurCible == Joueur.P1)
+        
+        if (DM.liste_Deck_Actif.Count == 0)
         {
-            if (DM.deck_P1.Count == 0)
+            Debug.Log($"<b><color=#80D8FF> -> Recyclage de la défausse de {GM.joueurActif} !</color></b>");
+
+            yield return StartCoroutine(DM.DemnderRecyclageDefausse_Coroutine());
+
+            if (DM.liste_Deck_Actif.Count == 0)
             {
-                Debug.LogWarning("<b><color=#FFFF00>!!! Deck de P1 vide, recyclage de la défausse !</color></b>");
-
-                yield return StartCoroutine(DM.RecyclageDefausse(joueurCible));
-
-                if (DM.deck_P1.Count == 0)
-                {
-                    Debug.LogWarning("<b><color=#FFFF00>!!! Impossible de piocher : le deck et la défausse de P1 sont vides !</color></b>");
-                    yield break;
-                }
+                Debug.LogWarning($"<b><color=#FFFF00>!!! Impossible de piocher : le deck et la défausse de {GM.joueurActif} sont vides !</color></b>");
+                yield break;
             }
-
-            cartePiochee = DM.deck_P1[DM.deck_P1.Count - 1];
-            DM.deck_P1.RemoveAt(DM.deck_P1.Count - 1);
-            Main_P1.Add(cartePiochee);
-
-            positionDepart = DM.zone_Deck_P1.position;
-        }
-        else
-        {
-            if (DM.deck_P2.Count == 0)
-            {
-                Debug.LogWarning("<b><color=#FFFF00>!!! Deck de P2 vide, recyclage de la défausse !</color></b>");
-
-                yield return StartCoroutine(DM.RecyclageDefausse(joueurCible));
-
-                if (DM.deck_P2.Count == 0)
-                {
-                    Debug.LogWarning("<b><color=#FFFF00>!!! Impossible de piocher : le deck et la défausse de P2 sont vides !</color></b>");
-                    yield break;
-                }
-            }
-
-            cartePiochee = DM.deck_P2[DM.deck_P2.Count - 1];
-            DM.deck_P2.RemoveAt(DM.deck_P2.Count - 1);
-            Main_P2.Add(cartePiochee);
-
-            positionDepart = DM.zone_Deck_P2.position;
         }
 
-        Debug.Log($"<b><color=#80D8FF> -> {joueurCible} pioche une carte ! </color></b>");
+        cartePiochee = DM.liste_Deck_Actif[DM.liste_Deck_Actif.Count - 1];
+        DM.liste_Deck_Actif.RemoveAt(DM.liste_Deck_Actif.Count - 1);
+        DM.liste_Main_Actif.Add(cartePiochee);
+        cartePiochee.gameObject.transform.SetParent(DM.main_Actif.transform);
+        positionDepart = DM.zone_Deck_Actif.position;
 
-        SpriteRenderer spriteRenderer = cartePiochee.objetCarte.GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = cartePiochee.data.sprite_Carte;
+        Debug.Log($"<b><color=#80D8FF> -> {GM.joueurActif} pioche une carte ! </color></b>");
 
-        cartePiochee.objetCarte.transform.position = positionDepart;
+        SpriteRenderer sr = cartePiochee.gameObject.GetComponent<SpriteRenderer>();
+        sr.sprite = cartePiochee.data.sprite_Carte;
+        sr.sortingLayerName = "Main";
+        sr.sortingOrder = (DM.liste_Main_Actif.Count - 1) * 10;
+        cartePiochee.gameObject.transform.position = positionDepart;
 
-        List<Carte> mainActive;
+        Dictionary<Carte, Carte_Presentation> dico_presentationFinale = CalculerPositionsDesCartes(DM.liste_Main_Actif);
 
-        if (joueurCible == Joueur.P1)
+        foreach (Carte carte in DM.liste_Main_Actif)
         {
-            mainActive = Main_P1;
-        }
-        else
-        {
-            mainActive = Main_P2;
-        }
-
-        Dictionary<Carte, Carte_Presentation> dico_presentationFinale = CalculerPositionsDesCartes(mainActive);
-
-        foreach (Carte carte in mainActive)
-        {
-            Vector3 positionActuelle = carte.objetCarte.transform.position;
+            Vector3 positionActuelle = carte.gameObject.transform.position;
             Carte_Presentation presentationFinale = dico_presentationFinale[carte];
             Vector3 positionFinale = presentationFinale.position;
 
-            StartCoroutine(DeplacerCarte(carte, positionActuelle, positionFinale, presentationFinale.rotation));
+            StartCoroutine(DeplacerCarte_Coroutine(carte, positionActuelle, positionFinale, presentationFinale.rotation));
         }
 
         yield return new WaitForSeconds(tempsDeplacementDesCartes);
     }
-
 
     // ============================================================
     // CALCUL DES POSITIONS
@@ -194,7 +131,7 @@ public class MainManager : MonoBehaviour
 
             Vector3 positionLocale = new Vector3(positionX, hauteur, 0f);
 
-            Vector3 positionMonde = zone_Main.TransformPoint(positionLocale);
+            Vector3 positionMonde = DM.zone_Main_Actif.TransformPoint(positionLocale);
 
             float angle = Mathf.Lerp(angleMaxCourbe, -angleMaxCourbe, progression);
 
@@ -208,16 +145,15 @@ public class MainManager : MonoBehaviour
         return dico_presentationsFinales;
     }
 
-
     // ============================================================
-    // DEPLACEMENT FLUIDE
+    // DEPLACEMENT CARTE
     // ============================================================
 
-    private IEnumerator DeplacerCarte(Carte carte, Vector3 positionDepart, Vector3 positionArrivee, Quaternion rotationArrivee)
+    private IEnumerator DeplacerCarte_Coroutine(Carte carte, Vector3 positionDepart, Vector3 positionArrivee, Quaternion rotationArrivee)
     {
         float temps = 0f;
 
-        Quaternion rotationDepart = carte.objetCarte.transform.rotation;
+        Quaternion rotationDepart = carte.gameObject.transform.rotation;
 
         while (temps < tempsDeplacementDesCartes)
         {
@@ -225,64 +161,60 @@ public class MainManager : MonoBehaviour
 
             float progression = temps / tempsDeplacementDesCartes;
 
-            carte.objetCarte.transform.position = Vector3.Lerp(positionDepart, positionArrivee, progression);
+            carte.gameObject.transform.position = Vector3.Lerp(positionDepart, positionArrivee, progression);
 
-            carte.objetCarte.transform.rotation = Quaternion.Lerp(rotationDepart, rotationArrivee, progression);
+            carte.gameObject.transform.rotation = Quaternion.Lerp(rotationDepart, rotationArrivee, progression);
 
             yield return null;
         }
 
-        carte.objetCarte.transform.position = positionArrivee;
-        carte.objetCarte.transform.rotation = rotationArrivee;
+        Vector3 positionFinale = positionArrivee;
+
+        if (carte == carteSelectionnee)
+        {
+            positionFinale += Vector3.up * hauteurSelection;
+        }
+
+        carte.gameObject.transform.position = positionFinale;
+
+        carte.gameObject.transform.rotation = rotationArrivee;
     }
 
     // ============================================================
     // DEFAUSSER MAIN DU JOUEUR
     // ============================================================
 
-    public void DefausserMainDuJoueur()
+
+
+    public IEnumerator DefausserMainDuJoueur_Coroutine()
     {
-        StartCoroutine(DefausserMain(GM.joueurActif));
+        if (carteSelectionnee != null)
+        {
+            yield return StartCoroutine(DeselectionnerCarte_Coroutine(carteSelectionnee));
+            carteSelectionnee = null;
+        }
+
+        yield return StartCoroutine(DefausserMain_Coroutine());
     }
 
-    private IEnumerator DefausserMain(Joueur joueurCible)
+    private IEnumerator DefausserMain_Coroutine()
     {
-        List<Carte> mainActive;
-
-        if (joueurCible == Joueur.P1)
+        while (DM.liste_Main_Actif.Count > 0)
         {
-            mainActive = Main_P1;
-        }
-        else
-        {
-            mainActive = Main_P2;
-        }
-
-        while (mainActive.Count > 0)
-        {
-            Carte carte = mainActive[0];
+            Carte carte = DM.liste_Main_Actif[0];
             
-            List<Carte> defausseActive;
-            Transform zoneDefausse;
+            Vector3 positionDepart = carte.gameObject.transform.position;
 
-            if (joueurCible == Joueur.P1)
-            {
-                defausseActive = DM.defausse_P1;
-                zoneDefausse = DM.zone_Defaussse_P1;
-            }
-            else
-            {
-                defausseActive = DM.defausse_P2;
-                zoneDefausse = DM.zone_Defaussse_P2;
-            }
+            carte.gameObject.GetComponent<SpriteRenderer>().sortingOrder = DM.liste_Defausse_Actif.Count * 10;
+            DM.liste_Main_Actif.RemoveAt(0);
+            DM.liste_Defausse_Actif.Add(carte);
+            carte.gameObject.transform.SetParent(DM.defausse_Actif.transform);
 
-            Vector3 positionDepart = carte.objetCarte.transform.position;
+            SpriteRenderer sr = carte.gameObject.GetComponent<SpriteRenderer>();
+            sr.sortingLayerName = "Defausse";
+            sr.sortingOrder = (DM.liste_Defausse_Actif.Count - 1) * 10;
 
-            carte.objetCarte.GetComponent<SpriteRenderer>().sortingOrder = defausseActive.Count * 10;
-            defausseActive.Add(carte);
-            mainActive.RemoveAt(0);
-
-            yield return StartCoroutine(DeplacerCarteVersDefausse(carte, positionDepart, zoneDefausse.position));
+            yield return StartCoroutine(DeplacerCarteVersDefausse_Coroutine(carte, positionDepart, DM.zone_Defaussse_Actif.position));
 
             yield return new WaitForSeconds(tempsEntreChaqueDefausse);
         }
@@ -292,11 +224,11 @@ public class MainManager : MonoBehaviour
     // DEPLACER CARTE VERS LA DEFAUSSE
     // ============================================================
 
-    private IEnumerator DeplacerCarteVersDefausse(Carte carte, Vector3 positionDepart, Vector3 positionArrivee)
+    private IEnumerator DeplacerCarteVersDefausse_Coroutine(Carte carte, Vector3 positionDepart, Vector3 positionArrivee)
     {
         float temps = 0f;
 
-        Quaternion rotationDepart = carte.objetCarte.transform.rotation;
+        Quaternion rotationDepart = carte.gameObject.transform.rotation;
         Quaternion rotationArrivee = Quaternion.identity;
 
         while (temps < tempsDeplacementDesCartes)
@@ -305,14 +237,99 @@ public class MainManager : MonoBehaviour
 
             float progression = temps / tempsDeplacementDesCartes;
 
-            carte.objetCarte.transform.position = Vector3.Lerp(positionDepart, positionArrivee, progression);
+            carte.gameObject.transform.position = Vector3.Lerp(positionDepart, positionArrivee, progression);
 
-            carte.objetCarte.transform.rotation = Quaternion.Lerp(rotationDepart, rotationArrivee, progression);
+            carte.gameObject.transform.rotation = Quaternion.Lerp(rotationDepart, rotationArrivee, progression);
 
             yield return null;
         }
 
-        carte.objetCarte.transform.position = positionArrivee;
-        carte.objetCarte.transform.rotation = rotationArrivee;
+        carte.gameObject.transform.position = positionArrivee;
+        carte.gameObject.transform.rotation = rotationArrivee;
+    }
+
+    // ============================================================
+    //SELECTION DES CARTE 
+    // ============================================================
+
+    public void SelectionnerCarte(Carte carte)
+    {
+        // Cliquer sur la carte déjà sélectionnée
+        if (carteSelectionnee == carte)
+        {
+            StartCoroutine(DeselectionnerCarte_Coroutine(carte));
+            carteSelectionnee = null;
+            return;
+        }
+
+        // Désélectionner l'ancienne
+        if (carteSelectionnee != null)
+        {
+            StartCoroutine(DeselectionnerCarte_Coroutine(carteSelectionnee));
+        }
+
+        // Sélectionner la nouvelle
+        carteSelectionnee = carte;
+
+        StartCoroutine(AnimerSelectionCarte_Coroutine(carte, true));
+
+        Debug.Log($"<b><color=#FFFF00> -> Carte sélectionnée : {carte.data.nom}</color></b>");
+    }
+
+    private IEnumerator DeselectionnerCarte_Coroutine(Carte carte)
+    {
+        yield return StartCoroutine(AnimerSelectionCarte_Coroutine(carte, false));
+    }
+
+    private IEnumerator AnimerSelectionCarte_Coroutine(Carte carte, bool selection)
+    {
+        Transform transformCarte = carte.gameObject.transform;
+
+        Vector3 positionDepart = transformCarte.position;
+        Vector3 echelleDepart = transformCarte.localScale;
+
+        Vector3 positionArrivee = positionDepart;
+        Vector3 echelleArrivee = echelleDepart;
+
+        if (selection)
+        {
+            transformCarte.GetComponent<SpriteRenderer>().sortingOrder = 1000;
+
+            positionArrivee += Vector3.up * hauteurSelection;
+            echelleArrivee *= facteurTailleSelection;
+        }
+        else
+        {
+            transformCarte.GetComponent<SpriteRenderer>().sortingOrder = DM.liste_Main_Actif.IndexOf(carte) * 10;
+            positionArrivee -= Vector3.up * hauteurSelection;
+            echelleArrivee /= facteurTailleSelection;
+        }
+
+        float temps = 0f;
+
+        while (temps < tempsAnimationSelection)
+        {
+            temps += Time.deltaTime;
+
+            float progression = temps / tempsAnimationSelection;
+
+            transformCarte.position = Vector3.Lerp(
+                positionDepart,
+                positionArrivee,
+                progression
+            );
+
+            transformCarte.localScale = Vector3.Lerp(
+                echelleDepart,
+                echelleArrivee,
+                progression
+            );
+
+            yield return null;
+        }
+
+        transformCarte.position = positionArrivee;
+        transformCarte.localScale = echelleArrivee;
+
     }
 }

@@ -22,9 +22,10 @@ public class InterfaceManager : MonoBehaviour
     {
         nbTourDeJeu = 0;
         Afficher_nbTourDeJeu();
-        
     }
-
+    // ============================================================
+    // PROFILES DES JOUEURS
+    // ============================================================
     public void Afficher_ProfilDesJoueurs()
     {
         imageProfil_P1.GetComponent<SpriteRenderer>().sprite = GM.imageJoueur_P1;
@@ -34,10 +35,9 @@ public class InterfaceManager : MonoBehaviour
         txt_nomProfil_P2.text = GM.nomJoueur_P2;
     }
 
-    public void Afficher_nbTourDeJeu()
-    {
-        txt_nbTourDeJeu.text = nbTourDeJeu.ToString();
-    }
+    // ============================================================
+    // ENVIRONEMENT DES JOUEURS
+    // ============================================================
 
     public void AfficherEnvironnementJoueur(Joueur joueurCible)
     {
@@ -56,4 +56,14 @@ public class InterfaceManager : MonoBehaviour
             environnement_Joueur.SetActive(false);
         }
     }
+
+    // ============================================================
+    // NOMBRE DE TOUR DE JEU
+    // ============================================================
+
+    public void Afficher_nbTourDeJeu()
+    {
+        txt_nbTourDeJeu.text = nbTourDeJeu.ToString();
+    }
+    
 }
