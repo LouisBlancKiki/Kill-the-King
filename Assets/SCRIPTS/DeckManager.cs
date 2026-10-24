@@ -8,8 +8,7 @@ public class DeckManager : MonoBehaviour
 {
     [Header("<b><color=#FFDC99>MANAGERS</color></b>")]
     public GameManager GM;
-    public MainManager MM;
-
+    
     [Space(10)]
 
     [Header("<b><color=#FFDC99>CARTES</color></b>")]
@@ -102,8 +101,8 @@ public class DeckManager : MonoBehaviour
     // ============================================================
     public void InitialiserDeckDesJoueurs()
     {
-        CreerDeckDeDepart(Joueur.P1,liste_Deck_P1);
-        CreerDeckDeDepart(Joueur.P2, liste_Deck_P2);
+        CreerDeckDeDepart(Joueur.P1);
+        CreerDeckDeDepart(Joueur.P2);
         MelangerDeck(Joueur.P1);
         MelangerDeck(Joueur.P2);
     }
@@ -112,28 +111,45 @@ public class DeckManager : MonoBehaviour
     // CREATION DU DECK
     // ============================================================
 
-    public void CreerDeckDeDepart( Joueur joueurCible, List<Carte> deckCible)
+    public void CreerDeckDeDepart( Joueur joueurCible)
     {
-        Debug.Log($"<b><color=#80D8FF> -> Création  du deck de départ de {joueurCible} :  {deckCible.Count} cartes au total</color></b>");
+        Debug.Log($"<b><color=#80D8FF> -> Création  du deck de départ de {joueurCible}</color></b>");
 
-        AjouterCartesAuDeck(joueurCible, deckCible, NomCarte.Paysan, GM.nbCarte_AuDepart_Paysan);
-        AjouterCartesAuDeck(joueurCible, deckCible, NomCarte.Bucheron, GM.nbCarte_AuDepart_Bucheron);
-        AjouterCartesAuDeck(joueurCible, deckCible, NomCarte.Mineur, GM.nbCarte_AuDepart_Mineur);
-        AjouterCartesAuDeck(joueurCible, deckCible, NomCarte.Marchand, GM.nbCarte_AuDepart_Marchand);
-        AjouterCartesAuDeck(joueurCible, deckCible, NomCarte.Tavernier, GM.nbCarte_AuDepart_Tavernier);
-        AjouterCartesAuDeck(joueurCible, deckCible, NomCarte.Charpentier, GM.nbCarte_AuDepart_Charpentier);
-        AjouterCartesAuDeck(joueurCible, deckCible, NomCarte.Batisseur, GM.nbCarte_AuDepart_Batisseur);
-        AjouterCartesAuDeck(joueurCible, deckCible, NomCarte.Architecte, GM.nbCarte_AuDepart_Architecte);
-        AjouterCartesAuDeck(joueurCible, deckCible, NomCarte.Forgeron, GM.nbCarte_AuDepart_Forgeron);
-        AjouterCartesAuDeck(joueurCible, deckCible, NomCarte.Aumonier, GM.nbCarte_AuDepart_Aumonier);
-        AjouterCartesAuDeck(joueurCible, deckCible, NomCarte.Philosophe, GM.nbCarte_AuDepart_Philosophe);
-        AjouterCartesAuDeck(joueurCible, deckCible, NomCarte.Mendiant, GM.nbCarte_AuDepart_Mendiant);
-        AjouterCartesAuDeck(joueurCible, deckCible, NomCarte.Artilleur, GM.nbCarte_AuDepart_Artilleur);
-        AjouterCartesAuDeck(joueurCible, deckCible, NomCarte.Bourreau, GM.nbCarte_AuDepart_Bourreau);
+        AjouterCartesAuDeck(joueurCible, NomCarte.Paysan, GM.nbCarte_AuDepart_Paysan);
+        AjouterCartesAuDeck(joueurCible, NomCarte.Bucheron, GM.nbCarte_AuDepart_Bucheron);
+        AjouterCartesAuDeck(joueurCible, NomCarte.Mineur, GM.nbCarte_AuDepart_Mineur);
+        AjouterCartesAuDeck(joueurCible, NomCarte.Marchand, GM.nbCarte_AuDepart_Marchand);
+        AjouterCartesAuDeck(joueurCible, NomCarte.Tavernier, GM.nbCarte_AuDepart_Tavernier);
+        AjouterCartesAuDeck(joueurCible, NomCarte.Charpentier, GM.nbCarte_AuDepart_Charpentier);
+        AjouterCartesAuDeck(joueurCible, NomCarte.Batisseur, GM.nbCarte_AuDepart_Batisseur);
+        AjouterCartesAuDeck(joueurCible, NomCarte.Architecte, GM.nbCarte_AuDepart_Architecte);
+        AjouterCartesAuDeck(joueurCible, NomCarte.Forgeron, GM.nbCarte_AuDepart_Forgeron);
+        AjouterCartesAuDeck(joueurCible, NomCarte.Aumonier, GM.nbCarte_AuDepart_Aumonier);
+        AjouterCartesAuDeck(joueurCible, NomCarte.Magistrat, GM.nbCarte_AuDepart_Magistrat);
+        AjouterCartesAuDeck(joueurCible, NomCarte.Mendiant, GM.nbCarte_AuDepart_Mendiant);
+        AjouterCartesAuDeck(joueurCible, NomCarte.Artilleur, GM.nbCarte_AuDepart_Artilleur);
+        AjouterCartesAuDeck(joueurCible, NomCarte.Assassin, GM.nbCarte_AuDepart_Assassin);
     }
 
-    public void AjouterCartesAuDeck(Joueur joueurCible, List<Carte> deckCible, NomCarte nomCarte, int quantite)
+    public void AjouterCartesAuDeck(Joueur joueurCible, NomCarte nomCarte, int quantite)
     {
+        List<Carte> liste_DeckCible;
+        GameObject deckCible;
+        Transform zone_DeckCible;
+
+        if ( joueurCible == Joueur.P1)
+        {
+            liste_DeckCible = liste_Deck_P1;
+            deckCible = deck_P1;
+            zone_DeckCible = zone_Deck_P1;
+        }
+        else
+        {
+            liste_DeckCible = liste_Deck_P2;
+            deckCible = deck_P2;
+            zone_DeckCible = zone_Deck_P2;
+        }
+
         Carte_Data carteData = cartes_DataBase.TrouverCarte(nomCarte);
 
         if (carteData == null)
@@ -144,26 +160,29 @@ public class DeckManager : MonoBehaviour
 
         for (int i = 0; i < quantite; i++)
         {
-            Carte carte = new Carte(carteData);
-            deckCible.Add(carte);
-            CreerVisuelDeLaCarte(carte);
+            Carte carte = new Carte(carteData, joueurCible);
+            liste_DeckCible.Add(carte);
+            GM.RM.AjouterCarte(joueurCible, carte);
+            CreerVisuelDeLaCarte(joueurCible, deckCible, zone_DeckCible, carte);
         }
     }
 
-    private void CreerVisuelDeLaCarte(Carte carte)
+    private void CreerVisuelDeLaCarte(Joueur joueurCible,GameObject deckCible,Transform zone_DeskCible, Carte carte)
     {
         Debug.Log($"<b><color=#80D8FF> -> Visuel créé : {carte.data.nom} </color></b>");
 
-        GameObject nouvelleCarte = Instantiate(carte.data.carteGameObject, zone_Deck_Actif.position, Quaternion.identity, deck_Actif.transform);
+        GameObject nouvelleCarte = Instantiate(carte.data.carteGameObject, zone_DeskCible.position, Quaternion.identity, deckCible.transform);
 
         carte.gameObject = nouvelleCarte;
 
         CarteInteraction carteInteraction = nouvelleCarte.AddComponent<CarteInteraction>();
         carteInteraction.carte = carte;
-        carteInteraction.mainManager = MM;
+        carteInteraction.MM = GM.MM;
 
         SpriteRenderer sr = nouvelleCarte.GetComponent<SpriteRenderer>();
         sr.sprite = carte_Verso;
+
+        nouvelleCarte.GetComponent<BoxCollider2D>().enabled = false;
     }
 
     // ============================================================
@@ -172,8 +191,6 @@ public class DeckManager : MonoBehaviour
 
     public void MelangerDeck(Joueur joueurCible)
     {
-        Debug.Log($"<b><color=#80D8FF> -> Mélange du deck de {joueurCible} </color></b>");
-
         List<Carte> liste_Deck_Cible;
         Vector3 decalage_EpaisseurDeck_Cible;
         Transform zone_Deck_Cible;
@@ -191,6 +208,8 @@ public class DeckManager : MonoBehaviour
             zone_Deck_Cible = zone_Deck_P2;
         }
 
+        Debug.Log($"<b><color=#80D8FF> -> Mélange du deck de {joueurCible}, total : {liste_Deck_Cible.Count} cartes </color></b>");
+
         for (int i = 0; i < liste_Deck_Cible.Count; i++)
         {
             Carte temp = liste_Deck_Cible[i];
@@ -198,7 +217,7 @@ public class DeckManager : MonoBehaviour
             liste_Deck_Cible[i] = liste_Deck_Cible[randomIndex];
             liste_Deck_Cible[randomIndex] = temp;
 
-            liste_Deck_Cible[i].gameObject.transform.position = zone_Deck_Cible.position + (decalage_EpaisseurDeck_Actif * i);
+            liste_Deck_Cible[i].gameObject.transform.position = zone_Deck_Cible.position + (decalage_EpaisseurDeck_Cible * i);
             SpriteRenderer sr = liste_Deck_Cible[i].gameObject.GetComponent<SpriteRenderer>();
             sr.sortingLayerName = "Deck";
             sr.sortingOrder = i * 10;

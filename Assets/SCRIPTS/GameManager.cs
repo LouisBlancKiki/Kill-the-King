@@ -1,14 +1,16 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine.Events;
 using static Elements;
 
 public class GameManager : MonoBehaviour
 {
     // MANAGERS
     [Header("<b><color=#FFDC99>MANAGERS</color></b>")]
-
     public AccueilManager AM;
     public InterfaceManager IM;
     public PlateauManager PM;
@@ -16,12 +18,19 @@ public class GameManager : MonoBehaviour
     public MainManager MM;
     public TableauManager TM;
     public BoutonManager BM;
+    public ScoreManager SM;
+    public PanneauActionManager PAM;
+    public RegistreManager RM;
+
+    [Space(10)]
+
+    // MODE DEV
+    public GameObject mode_Dev;
 
     [Space(10)]
 
     // COULEURS JOUEURS
     [Header("<b><color=#FFDC99>COULEURS JOUEURS</color></b>")]
-
     public Color[] listeCouleurJoueur;
 
     [Space(10)]
@@ -62,7 +71,7 @@ public class GameManager : MonoBehaviour
     [Space(10)]
 
     // COMPO DU DECK AU DEPART
-    [Header("<b><color=#FFDC99>COMPO DU DECK AU DEPART</color></b>")]
+    [Header("<b><color=#FFDC99>COMPO DU DECK AU DEBUT DE PARTIE</color></b>")]
     public int nbCarte_AuDepart_Paysan;
     public int nbCarte_AuDepart_Bucheron;
     public int nbCarte_AuDepart_Mineur;
@@ -73,22 +82,26 @@ public class GameManager : MonoBehaviour
     public int nbCarte_AuDepart_Architecte;
     public int nbCarte_AuDepart_Forgeron;
     public int nbCarte_AuDepart_Aumonier;
-    public int nbCarte_AuDepart_Philosophe;
+    public int nbCarte_AuDepart_Magistrat;
     public int nbCarte_AuDepart_Mendiant;
     public int nbCarte_AuDepart_Artilleur;
-    public int nbCarte_AuDepart_Bourreau;
+    public int nbCarte_AuDepart_Assassin;
 
     [Space(10)]
 
     // RESSOURCES AU DEPART
-    [Header("<b><color=#FFDC99>RESSOURCES AU DEPART</color></b>")]
-    public int nbPieces_AuDepart;
-    public int nbNourritures_AuDepart;
-    public int nbBois_AuDepart;
-    public int nbPierres_AuDepart;
-    public int nbCharbons_AuDepart;
-    public int nbMetals_AuDepart;
+    [Header("<b><color=#FFDC99>RESSOURCES AU DEBUT DE PARTIE</color></b>")]
+    public int nbPieces_DebutDePartie;
+    public int nbNourritures_DebutDePartie;
+    public int nbBois_DebutDePartie;
+    public int nbPierres_DebutDePartie;
+    public int nbCharbons_DebutDePartie;
+    public int nbMetals_DebutDePartie;
 
+    [Space(10)]
+
+    // DONNEES DU CHATEAU AU DEPART
+    [Header("<b><color=#FFDC99>RESSOURCES AU DEBUT DE PARTIE</color></b>")]
     public int pointDeVieChateauMax;
 
     [Space(10)]
@@ -107,6 +120,12 @@ public class GameManager : MonoBehaviour
     public int limiteDePiece;
     public int limiteDeRessource;
 
+    // [Space(10)]
+    
+    //EVENT
+    //[Header("<b><color=#FFDC99>EVENT</color></b>")]
+    public event System.Action Event_TourSuivant;
+
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     void Start()
     {
@@ -114,6 +133,14 @@ public class GameManager : MonoBehaviour
         joueurActif = Joueur.Game;
         prochainJoueur = 2;
         //prochainJoueur = Random.Range(1, 3);
+    }
+    // ============================================================
+    // MODE DEV
+    // ============================================================
+
+    private void Update()
+    {
+        mode_Dev.SetActive(Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl));
     }
 
     // ============================================================
@@ -150,6 +177,11 @@ public class GameManager : MonoBehaviour
             DM.zone_Main_Actif = DM.zone_Main_P1;
             DM.main_Actif = DM.main_P1;
             DM.liste_Main_Actif = DM.liste_Main_P1;
+
+            PAM.entete_Action_Actif = PAM.entete_Action_P1;
+            PAM.zone_Bouton_Action_Actif = PAM.zone_Bouton_Action_P1;
+            PAM.bouton_Action_Actif = PAM.bouton_Action_P1;
+            PAM.info_Action_Actif = PAM.info_Action_P1;
         }
         else
         {
@@ -164,12 +196,18 @@ public class GameManager : MonoBehaviour
             DM.zone_Main_Actif = DM.zone_Main_P2;
             DM.main_Actif = DM.main_P2;
             DM.liste_Main_Actif = DM.liste_Main_P2;
+
+            PAM.entete_Action_Actif = PAM.entete_Action_P2;
+            PAM.zone_Bouton_Action_Actif = PAM.zone_Bouton_Action_P2;
+            PAM.bouton_Action_Actif = PAM.bouton_Action_P2;
+            PAM.info_Action_Actif = PAM.info_Action_P2;
         }
 
         IM.AfficherEnvironnementJoueur(joueurActif);
         Debug.Log($"<b><color=#000000>/// JoueurActif = { joueurActif } </color></b>");
     }
 
+    
     // ============================================================
     // DEBUT DE PARTIE
     // ============================================================
@@ -210,7 +248,10 @@ public class GameManager : MonoBehaviour
         IM.Afficher_ProfilDesJoueurs();
         PM.InitialiserPlateauDeJeu();
         DM.InitialiserDeckDesJoueurs();
+        SM.InitialiserBarreRessouurce();
 
+        SM.InitialiserDonneesDebutDePartie(Joueur.P1);
+        SM.InitialiserDonneesDebutDePartie(Joueur.P2);
 
         AM.OuvertureDesVoletsAcceuil();
         Invoke("ChangementDeJoueur", 1.5f);
@@ -278,21 +319,22 @@ public class GameManager : MonoBehaviour
     public void ConfirmationJoueurPret()
     {
         TM.MasquerTableau_DebutDeTour();
-        Invoke("DemarrerTourDuProchainJoueur", 0.2f);
+        Invoke("InitialiserTourDuProchainJoueur", 0.2f);
     }
 
-    public void DemarrerTourDuProchainJoueur()
+    public void InitialiserTourDuProchainJoueur()
     {
         IM.nbTourDeJeu++;
 
         IM.Afficher_nbTourDeJeu();
-        DefinirAccesDesBoutonsFinDeTour();
-        LancerDebutDeTour();
+        Event_TourSuivant?.Invoke();
+        MM.DemanderDistributionDesCartes();
     }
 
-    public void LancerDebutDeTour()
+    public void DebuterTourDuJoueur()
     {
-        MM.piocheDeDebutDeTour();
+        DefinirAccesDesBoutonsFinDeTour();
+        MM.DefinirAccessibiliteDesCarte();
     }
 
     
@@ -319,7 +361,6 @@ public class GameManager : MonoBehaviour
 
     public void FinaliserLeTour()
     {
-        //GD2P.estEnFinDeTour = true;
         StartCoroutine(FinaliserLeTour_Coroutine());
     }
 
@@ -334,7 +375,7 @@ public class GameManager : MonoBehaviour
 
         //boutonFinDeTour_P1.GetComponent<Bouton_FinDeTour>().AfficherNbDeSupportLumaction(0);
         // boutonFinDeTour_P2.GetComponent<Bouton_FinDeTour>().AfficherNbDeSupportLumaction(0);
-        yield return StartCoroutine(MM.DefausserMainDuJoueur_Coroutine());
+        yield return StartCoroutine(MM.DefausserToutesLesCartesDeLaMain_Coroutine());
         joueurActif = Joueur.Game;
         DefinirAccesDesBoutonsFinDeTour();
         

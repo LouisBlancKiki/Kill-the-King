@@ -15,7 +15,14 @@ MonoBehaviour:
   type: 1
   nom: 8
   sprite_Carte: {fileID: 21300000, guid: 8dacecb4bd9272c4fb98a3a367b29da9, type: 3}
-  sprite_EntetePanneauAction: {fileID: 0}
+  sprite_EnteteAction: {fileID: 21300000, guid: 973ce87bdba66e0478d3de0d7a4b9eec, type: 3}
+  liste_Sprite_Bouton_Action:
+  - {fileID: 21300000, guid: 0f823086d6b115f48ab7e4df850991b1, type: 3}
+  liste_Sprite_BoutonSelect_Action:
+  - {fileID: 21300000, guid: b961587484f00b2409d37dcabf089a44, type: 3}
+  liste_Sprite_Info_Action:
+  - {fileID: 21300000, guid: 8ae9703a0503c9c47a0bf1cff79fd3ca, type: 3}
+  liste_Action: 06000000
   sprite_BoutonRecrute: {fileID: 0}
   prixEnPiece: 3
   coutEnNourriture: 0

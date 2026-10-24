@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f63d9ff07db4b324a99879a8d6cb3635, type: 3}
   m_Name: Tuile_Data_AileDeChateau
   m_EditorClassIdentifier: 
-  type: 8
+  type: 1
   pointDeVieMax: 100
   tuileNiveauMinimumRecoltable: 0
   tuileNiveauMaximum: 0
   nbRessourcesRecolte: 0
   estEvolutif: 0
-  prefabsSelonNiveau:
-  - {fileID: 4138781663526476005, guid: 396337537eabcd443ad067a2104a2ead, type: 3}
+  liste_SpriteSelonNiveau:
+  - {fileID: 21300000, guid: 9e4a7503b0ce17847a181708a0ae8c9a, type: 3}

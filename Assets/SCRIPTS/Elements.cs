@@ -8,20 +8,23 @@ public static class Elements
         P1,
         P2
     }
-
-    public enum TypeTuile
+    public enum TypeTerrain
     {
         Prairie,
         GisementDePierre,
         GisementDeCharbon,
         GisementDeMetal,
-        MineDePierre,
-        MineDeCharbon,
-        MineDeMetal,
+        Vide
+    }
+    public enum TypeTuile
+    {
         Chateau,
         AileDeChateau,
         Champ,
         Foret,
+        MineDePierre,
+        MineDeCharbon,
+        MineDeMetal,
         Maison,
         Marche,
         Taverne,
@@ -32,7 +35,8 @@ public static class Elements
         Academie,
         Rempart,
         Canon,
-        Monument
+        Monument,
+        Vide
     }
 
     public enum TypeCarte
@@ -58,11 +62,52 @@ public static class Elements
         Architecte,
         Forgeron,
         Aumonier,
-        Philosophe,
+        Magistrat,
         Mendiant,
         Artilleur,
-        Bourreau
+        Assassin
     }
+    public enum Ressource
+    {
+        Nourriture,
+        Bois,
+        Pierre,
+        Charbon,
+        Metal,
+        Piece
+    }
+
+    public enum Action
+    {
+        Semer,
+        Recolter,
+        Planter,
+        Couper,
+        Creuser,
+        Extraire,
+        Marchander,
+        Recruter,
+        Convertir,
+        Celebrer,
+        Promouvoir,
+        Bannir,
+        Bombarder,
+        Manoeuvrer,
+        Assassiner,
+        Construire_Maison,
+        Construire_Marche,
+        Construire_Taverne,
+        Construire_Entrepot,
+        Construire_Forge,
+        Construire_Moulin,
+        Construire_Chapelle,
+        Construire_Tribunal,
+        Construire_Rempart,
+        Construire_Canon,
+        Construire_Monument,
+        Demolir
+    }
+
 }
 
 

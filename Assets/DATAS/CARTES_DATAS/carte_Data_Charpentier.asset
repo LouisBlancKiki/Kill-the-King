@@ -15,11 +15,24 @@ MonoBehaviour:
   type: 1
   nom: 10
   sprite_Carte: {fileID: 21300000, guid: 6101f826b904b3e46919d49c803798ab, type: 3}
-  sprite_EntetePanneauAction: {fileID: 0}
+  sprite_EnteteAction: {fileID: 21300000, guid: 7c2d8b291b7c5124ba8159423d847c5f, type: 3}
+  liste_Sprite_Bouton_Action:
+  - {fileID: 21300000, guid: e25e9d17869cb3f4fbd0bc62c5f99ceb, type: 3}
+  - {fileID: 21300000, guid: 65424618039e37a40a86c532284e440c, type: 3}
+  - {fileID: 21300000, guid: d424a86ac4764974ab4cb19b5c544623, type: 3}
+  liste_Sprite_BoutonSelect_Action:
+  - {fileID: 21300000, guid: 8c19983d8113a234dad6c55ffff18554, type: 3}
+  - {fileID: 21300000, guid: b24ac3a5e40f88e4c841d8c0d716471f, type: 3}
+  - {fileID: 21300000, guid: 7d8248da8b714834c8f22a72bcb5fba5, type: 3}
+  liste_Sprite_Info_Action:
+  - {fileID: 21300000, guid: 2fc720eebc420c3489483ba89004d6d9, type: 3}
+  - {fileID: 21300000, guid: b74ff8a8b3d219746afcefe7f56afd5f, type: 3}
+  - {fileID: 21300000, guid: 30b41a98d4ca78a4b9bb6619263b36e3, type: 3}
+  liste_Action: 0f0000001000000011000000
   sprite_BoutonRecrute: {fileID: 0}
   prixEnPiece: 5
-  coutEnNourriture: 0
-  coutEnBois: 0
+  coutEnNourriture: 1
+  coutEnBois: 3
   coutEnPierre: 0
   coutEnCharbon: 0
   coutEnMetal: 0

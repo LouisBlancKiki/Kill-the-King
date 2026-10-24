@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Elements;
 
-[CreateAssetMenu(fileName = "Cartes_DataBase", menuName = "Cartes/nouvelle DataBase de cartes")]
+[CreateAssetMenu(fileName = "DataBase_Cartes", menuName = "Cartes/nouvelle DataBase de cartes")]
 public class Cartes_DataBase : ScriptableObject
 {
     public List<Carte_Data> cartes_Liste;

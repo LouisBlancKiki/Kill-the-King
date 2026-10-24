@@ -15,7 +15,8 @@ MonoBehaviour:
   type: 1
   nom: 16
   sprite_Carte: {fileID: 21300000, guid: 287adffdf3221a9489b53a9692b077b9, type: 3}
-  sprite_EntetePanneauAction: {fileID: 0}
+  sprite_EnteteAction: {fileID: 21300000, guid: 33956caf1314ba842a64fd2d2f288065, type: 3}
+  bouton_Action: []
   sprite_BoutonRecrute: {fileID: 0}
   prixEnPiece: 11
   coutEnNourriture: 0

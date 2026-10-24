@@ -3,10 +3,10 @@ using UnityEngine;
 public class CarteInteraction : MonoBehaviour
 {
     public Carte carte;
-    public MainManager mainManager;
+    public MainManager MM;
 
     private void OnMouseDown()
     {
-        mainManager.SelectionnerCarte(carte);
+        MM.SelectionnerCarte(carte);
     }
 }

@@ -53,17 +53,23 @@ TagManager:
   - name: Interface
     uniqueID: 1227463555
     locked: 0
-  - name: Deck
-    uniqueID: 1247989851
-    locked: 0
   - name: Defausse
     uniqueID: 452413039
+    locked: 0
+  - name: Deck
+    uniqueID: 1247989851
     locked: 0
   - name: Main
     uniqueID: 2675726601
     locked: 0
-  - name: Panneaux
+  - name: CartePremierPlan
+    uniqueID: 103109471
+    locked: 0
+  - name: Tableau
     uniqueID: 1584979547
+    locked: 0
+  - name: Mode Dev
+    uniqueID: 1172080135
     locked: 0
   - name: Accueil
     uniqueID: 2828208247

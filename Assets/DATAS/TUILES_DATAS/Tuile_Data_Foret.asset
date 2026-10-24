@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f63d9ff07db4b324a99879a8d6cb3635, type: 3}
+  m_Name: Tuile_Data_Foret
+  m_EditorClassIdentifier: 
+  type: 3
+  pointDeVieMax: 0
+  tuileNiveauMinimumRecoltable: 0
+  tuileNiveauMaximum: 10
+  nbRessourcesRecolte: 0
+  estEvolutif: 1
+  liste_SpriteSelonNiveau:
+  - {fileID: 21300000, guid: b84031493b14eee47b335d3d84a79dac, type: 3}
+  - {fileID: 21300000, guid: 86998c693d2f4284688c6aa277e10724, type: 3}
+  - {fileID: 21300000, guid: 6ece068f79847de448d18e1fe9a293d7, type: 3}
+  - {fileID: 21300000, guid: 0cb7d96d1e6149d449200522b5ad220f, type: 3}
+  - {fileID: 21300000, guid: 61b4dde81d51df146a64fca033d33882, type: 3}
+  - {fileID: 21300000, guid: 1f55bba3810d48f4d8813e2af75e1c88, type: 3}
+  - {fileID: 21300000, guid: 1796170e1f1336244995905a4d25ffdc, type: 3}
+  - {fileID: 21300000, guid: 62214f4b2c70eb846a35634148537f8d, type: 3}
+  - {fileID: 21300000, guid: 8c6027959c8cbaf4d8db564bf3b32132, type: 3}
+  - {fileID: 21300000, guid: c0800c23e6f10104ab02086bf4b5d720, type: 3}
+  - {fileID: 21300000, guid: a0470fa0f28fc7c4eb210ecf51874c2a, type: 3}

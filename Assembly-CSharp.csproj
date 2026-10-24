@@ -60,8 +60,11 @@
     <Analyzer Include="D:\Unity\2022.3.62f3\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\SCRIPTS\Terrain_Data.cs" />
+    <Compile Include="Assets\SCRIPTS\Terrains_DataBase.cs" />
     <Compile Include="Assets\SCRIPTS\Case.cs" />
     <Compile Include="Assets\SCRIPTS\Bouton_Fanion.cs" />
+    <Compile Include="Assets\SCRIPTS\ScoreManager.cs" />
     <Compile Include="Assets\SCRIPTS\Carte_Interaction.cs" />
     <Compile Include="Assets\SCRIPTS\BoutonManager.cs" />
     <Compile Include="Assets\SCRIPTS\AccueilManager.cs" />
@@ -72,13 +75,18 @@
     <Compile Include="Assets\SCRIPTS\Carte_Presentation.cs" />
     <Compile Include="Assets\SCRIPTS\Tuiles_DataBase.cs" />
     <Compile Include="Assets\SCRIPTS\InterfaceManager.cs" />
+    <Compile Include="Assets\SCRIPTS\PanneauActionManager.cs" />
+    <Compile Include="Assets\SCRIPTS\ScoreJoueur.cs" />
+    <Compile Include="Assets\SCRIPTS\RegistreManager.cs" />
     <Compile Include="Assets\SCRIPTS\TableauManager.cs" />
     <Compile Include="Assets\SCRIPTS\MainManager.cs" />
     <Compile Include="Assets\SCRIPTS\GameManager.cs" />
     <Compile Include="Assets\SCRIPTS\DeckManager.cs" />
     <Compile Include="Assets\SCRIPTS\Bouton.cs" />
     <Compile Include="Assets\SCRIPTS\Cartes_DataBase.cs" />
+    <Compile Include="Assets\SCRIPTS\ModeDevManager.cs" />
     <Compile Include="Assets\SCRIPTS\Tuile_Data.cs" />
+    <Compile Include="Assets\SCRIPTS\Bouton_Action.cs" />
     <Compile Include="Assets\SCRIPTS\Carte_Data.cs" />
   </ItemGroup>
   <ItemGroup>

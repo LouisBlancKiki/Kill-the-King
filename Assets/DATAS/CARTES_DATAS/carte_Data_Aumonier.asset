@@ -15,12 +15,22 @@ MonoBehaviour:
   type: 1
   nom: 14
   sprite_Carte: {fileID: 21300000, guid: 383141fcf52b544418e67d74dc977bd7, type: 3}
-  sprite_EntetePanneauAction: {fileID: 0}
+  sprite_EnteteAction: {fileID: 21300000, guid: 16770b0196603194c9221e41b374d9aa, type: 3}
+  liste_Sprite_Bouton_Action:
+  - {fileID: 21300000, guid: a888b9e6e76822f43b0840252e176705, type: 3}
+  - {fileID: 21300000, guid: 36092a3f30142a5448f93f92ca178dc6, type: 3}
+  liste_Sprite_BoutonSelect_Action:
+  - {fileID: 21300000, guid: 94fe987a364d97d468a43f842bc0d2fd, type: 3}
+  - {fileID: 21300000, guid: f23e32edff5b20146bcfd7f358988256, type: 3}
+  liste_Sprite_Info_Action:
+  - {fileID: 21300000, guid: 8358b335bb226624b834a7f8428e470b, type: 3}
+  - {fileID: 21300000, guid: ab7487b862cd5a545a7383f0a3f824fe, type: 3}
+  liste_Action: 0800000009000000
   sprite_BoutonRecrute: {fileID: 0}
   prixEnPiece: 9
-  coutEnNourriture: 0
+  coutEnNourriture: 2
   coutEnBois: 0
   coutEnPierre: 0
-  coutEnCharbon: 0
+  coutEnCharbon: 2
   coutEnMetal: 0
   carteGameObject: {fileID: 4546394304669347893, guid: c0e4b2e6d0923e041bdb7210466d5295, type: 3}
